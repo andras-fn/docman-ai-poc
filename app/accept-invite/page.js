@@ -60,12 +60,12 @@ const page = ({ searchParams }) => {
         console.log({ user, session, error });
         //update password
         await supabase.auth.update({ password: newPassword });
+        console.log("Changed password");
+        redirect(`/`);
       } catch (error) {
         console.log(error);
         return { success: false, message: "Error saving details" };
       }
-
-      redirect(`/`);
     } else {
       console.log("Passwords do not match");
       return { success: false, message: "Passwords do not match" };
