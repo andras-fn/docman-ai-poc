@@ -1,5 +1,6 @@
-import { GeistSans } from 'geist/font/sans'
+
 import './globals.css'
+import Navbar from "@/components/Navbar";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -17,18 +18,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={GeistSans.className}>
-
-      <body className="bg-background text-foreground">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <h2>Docman AI</h2>
-          
-        </div>
-      </nav>
-        <main className="min-h-screen flex flex-col items-center">
+    <html lang="en" >
+      <body className="text-black max-h-screen ">
+      <div className="max-w-screen w-screen max-h-screen h-screen divide-y divide-slate-200 bg-white font-sans">
+        <Navbar/>
           {children}
-        </main>
+          </div>
       </body>
     </html>
   )
