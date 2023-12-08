@@ -5,23 +5,15 @@ import { cookies } from 'next/headers'
 
 export default async function Index() {
   const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
 
-  const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
-    try {
-      createClient(cookieStore)
-      return true
-    } catch (e) {
-      return false
-    }
-  }
-
-  const isSupabaseConnected = canInitSupabaseClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      {isSupabaseConnected ? "Please sign in": "thanks for signing in guy"}
+    <div className="w-full flex flex-col items-center">
+      {!user ? <div>Please sign in</div>: <div>thanks for signing in guy</div>}
     </div>
   )
 }

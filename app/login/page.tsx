@@ -53,10 +53,10 @@ export default function Login({
   }
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-      <Link
+    <div className="w-96 flex flex-col items-center gap-2 m-5">
+      <div className='w-full flex justify-start'><Link
         href="/"
-        className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
+        className="py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,8 @@ export default function Login({
           <polyline points="15 18 9 12 15 6" />
         </svg>{' '}
         Back
-      </Link>
+      </Link></div>
+      
 
       <form
         className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
