@@ -1,7 +1,8 @@
+"use client";
+
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/client";
 
 const schema = z.object({
   email: z.string({
@@ -19,11 +20,8 @@ const schema = z.object({
 });
 
 const page = ({ searchParams }) => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
   async function onSubmit(formData) {
-    "use server";
-
     const rawFormData = {
       email: formData.get("email"),
       token: formData.get("token"),
@@ -51,17 +49,26 @@ const page = ({ searchParams }) => {
 
       try {
         //use token
-        const { user, session, error } = await supabase.auth.verifyOTP({
+
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.verifyOtp({
           email: rawFormData.email,
           token: rawFormData.token,
-          type: "recovery",
+          type: "email",
         });
 
-        console.log({ user, session, error });
-        //update password
-        await supabase.auth.update({ password: newPassword });
-        console.log("Changed password");
-        redirect(`/`);
+        console.log({ session, error });
+
+        if (!error) {
+          //update password
+          await supabase.auth.update({ password: rawFormData.password });
+          console.log("Changed password");
+          redirect(`/`);
+        } else {
+          console.log("Failed to change password");
+        }
       } catch (error) {
         console.log(error);
         return { success: false, message: "Error saving details" };
