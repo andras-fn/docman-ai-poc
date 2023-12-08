@@ -18,7 +18,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className}>
+
       <body className="bg-background text-foreground">
+      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
+          <h2>Docman AI</h2>
+          
+        </div>
+      </nav>
         <main className="min-h-screen flex flex-col items-center">
           {children}
         </main>
