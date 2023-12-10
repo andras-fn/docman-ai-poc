@@ -1,9 +1,10 @@
 import AuthButton from "@/components/AuthButton";
+import UploadModal from "@/components/UploadModal";
 
 const Navbar = () => {
   return (
     <nav className="p-2 w-full flex justify-between items-center">
-      <div className="flex gap-x-2">
+      <div className="flex items-center gap-x-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -19,6 +20,7 @@ const Navbar = () => {
           />
         </svg>
         <div className="font-semibold">Docman AI</div>
+        <UploadModal />
       </div>
       <AuthButton />
     </nav>
