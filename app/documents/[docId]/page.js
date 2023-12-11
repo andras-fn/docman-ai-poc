@@ -17,7 +17,7 @@ const page = async ({ params: { docId } }) => {
 
   // use doc id to fetch document detail
   const { data, error } = await supabase
-    .from("document_data")
+    .from("documents")
     .select("*")
     .eq("id", docId)
     .single();

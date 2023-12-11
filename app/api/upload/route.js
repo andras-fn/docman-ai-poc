@@ -16,6 +16,9 @@ export async function POST(request) {
       data: { user },
     } = await supabase.auth.getUser();
 
+    console.log("user");
+    console.log(user.id);
+
     // check if user
     if (!user) {
       return NextResponse.json(
@@ -63,7 +66,7 @@ export async function POST(request) {
         {
           role: "system",
           content:
-            "You are a helpful assistant that extracts data from letters sent to a GP (A doctors General Practise)", // set the personality of the AI
+            "You are a helpful assistant that extracts data from letters sent to a GP (A doctors General Practise) and pays special attention to identifying snomed codes", // set the personality of the AI
         },
         {
           role: "user",
@@ -77,8 +80,9 @@ export async function POST(request) {
       // save the response:
       const saveExtractedData = async () => {
         const { data, error } = await supabase
-          .from("document_data")
+          .from("documents")
           .insert({
+            user_id: user.id,
             doc_name: incomingRequest.filename,
             doc_data: JSON.parse(result.choices[0].message?.content),
           })

@@ -14,7 +14,7 @@ const DocumentTable = () => {
 
   useEffect(() => {
     const getDocumentData = async () => {
-      const { data, error } = await supabase.from("document_data").select("*");
+      const { data, error } = await supabase.from("documents").select("*");
 
       console.log({ data, error });
 
