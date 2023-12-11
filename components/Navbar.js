@@ -1,8 +1,18 @@
 import AuthButton from "@/components/AuthButton";
 import UploadModalWrapper from "@/components/UploadModalWrapper";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  // need to check for user and redirect if not present
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <nav className="p-2 w-full flex justify-between items-center">
       <div className="flex items-center gap-x-2">
@@ -19,7 +29,7 @@ const Navbar = () => {
             <div className="font-semibold">Docman AI</div>
           </div>
         </Link>
-        <UploadModalWrapper />
+        {user ? <UploadModalWrapper /> : <></>}
       </div>
       <AuthButton />
     </nav>
