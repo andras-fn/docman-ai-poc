@@ -1,9 +1,11 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState, useRef, useEffect } from "react";
+import { Fragment, useState, useRef, useContext } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { createWorker } from "tesseract.js";
+
+import { useDocumentListContext } from "@/context/documentList";
 
 const UploadModal = () => {
   const supabase = createClient();
@@ -13,6 +15,8 @@ const UploadModal = () => {
   const [filename, setFilename] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
+
+  const { docList, setDocList } = useDocumentListContext();
 
   function closeModal() {
     setIsOpen(false);
@@ -31,7 +35,8 @@ const UploadModal = () => {
   };
 
   // handle upload
-  const handleSubmit = async (e) => {
+  const handleUpload = async (e) => {
+    console.log(e);
     e.preventDefault();
     console.log("file upload button has been clicked");
     setUploading(true);
@@ -56,14 +61,22 @@ const UploadModal = () => {
 
       const requestOptions = {
         method: "POST",
-        body: formdata,
+        body: JSON.stringify({ letterContents: ocrResult, filename }),
         redirect: "follow",
       };
 
-      // const uploadReq = await fetch(`/api/upload`, requestOptions);
-      // const uploadRes = await uploadReq.json();
+      const uploadReq = await fetch(`/api/upload`, requestOptions);
+      const uploadRes = await uploadReq.json();
 
-      // console.log(uploadRes);
+      console.log(uploadRes);
+
+      setDocList([
+        ...docList,
+        {
+          id: uploadRes.id,
+          doc_name: filename,
+        },
+      ]);
 
       // reset the file upload
       console.log("resetting file state");
@@ -142,7 +155,7 @@ const UploadModal = () => {
 
                   <form
                     className="mt-2 flex w-full flex-col gap-y-4"
-                    onSubmit={handleSubmit}
+                    onSubmit={handleUpload}
                   >
                     {uploading ? (
                       <div className="my-auto">Uploading...</div>
@@ -226,6 +239,23 @@ const UploadModal = () => {
                       </>
                     )}
                   </form>
+                  {/* <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+                    {messages.map((m) => (
+                      <div key={m.id} className="whitespace-pre-wrap">
+                        {m.role === "user" ? "User: " : "AI: "}
+                        {m.content}
+                      </div>
+                    ))}
+
+                    <form onSubmit={handleSubmit}>
+                      <input
+                        className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
+                        value={input}
+                        placeholder="Say something..."
+                        onChange={handleInputChange}
+                      />
+                    </form>
+                  </div> */}
                 </Dialog.Panel>
               </Transition.Child>
             </div>

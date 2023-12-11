@@ -6,12 +6,16 @@
     "start": "next start"
   },
   "dependencies": {
+    "@azure/openai": "^1.0.0-beta.8",
     "@headlessui/react": "^1.7.17",
+    "@nanostores/react": "github:ai/react",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "ai": "^2.2.29",
     "autoprefixer": "10.4.15",
     "geist": "^1.0.0",
     "next": "latest",
+    "openai": "^4.20.1",
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-dom": "18.2.0",
