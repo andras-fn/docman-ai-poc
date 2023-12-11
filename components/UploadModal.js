@@ -41,6 +41,8 @@ const UploadModal = () => {
     console.log("file upload button has been clicked");
     setUploading(true);
 
+    const timeNow = new Date();
+
     try {
       // call the ocr function and get the result
       // create ocr worker
@@ -61,14 +63,16 @@ const UploadModal = () => {
 
       const requestOptions = {
         method: "POST",
-        body: JSON.stringify({ letterContents: ocrResult, filename }),
+        body: JSON.stringify({
+          letterContents: ocrResult,
+          filename,
+          timeStarted: timeNow,
+        }),
         redirect: "follow",
       };
 
       const uploadReq = await fetch(`/api/upload`, requestOptions);
       const uploadRes = await uploadReq.json();
-
-      console.log(uploadRes);
 
       setDocList([
         ...docList,

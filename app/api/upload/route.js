@@ -74,7 +74,6 @@ export async function POST(request) {
         },
       ],
     });
-    console.log(result.choices[0].message?.content);
 
     if (result.choices[0].message?.content) {
       // save the response:
@@ -85,6 +84,7 @@ export async function POST(request) {
             user_id: user.id,
             doc_name: incomingRequest.filename,
             doc_data: JSON.parse(result.choices[0].message?.content),
+            time_started: incomingRequest.timeStarted,
           })
           .select("id")
           .single();
