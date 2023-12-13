@@ -1,6 +1,7 @@
 
 import './globals.css'
 import Navbar from "@/components/Navbar";
+import { DocumentListContextProvider } from "@/context/documentList";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -20,12 +21,16 @@ export default function RootLayout({
   return (
     <html lang="en" >
       <body className="text-black max-h-screen ">
-      <div className="max-w-screen w-screen max-h-screen h-screen divide-y divide-slate-200 bg-white font-sans">
+      <DocumentListContextProvider>
+ 
+   
+      <div className=" max-h-screen h-screen divide-y divide-slate-200 bg-white font-sans">
         <Navbar/>
-        <div className='flex flex-col items-center w-full  max-h-[calc(100vh-56px)] h-[calc(100vh-56px)] '>
+        <div className='flex flex-col items-center w-full  max-h-[calc(100vh-80px)] h-[calc(100vh-80px)] '>
           {children}
           </div>
           </div>
+          </DocumentListContextProvider>
       </body>
     </html>
   )

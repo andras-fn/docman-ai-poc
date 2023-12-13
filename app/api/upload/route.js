@@ -62,15 +62,16 @@ export async function POST(request) {
     const result = await openai.chat.completions.create({
       model,
       response_format: { type: "json_object" },
+      temperature: 0,
       messages: [
         {
           role: "system",
           content:
-            "You are a helpful assistant that extracts data from letters sent to a GP (A doctors General Practise) and pays special attention to identifying snomed codes", // set the personality of the AI
+            "You are a helpful assistant that extracts data from letters sent to a GP (A doctors General Practise) and pays special attention to identifying snomed codes. You only produce 2 or 3 Next Actions. Your summaries should be 2-3 sentences. You can determine if a document requires urgent action. ", // set the personality of the AI
         },
         {
           role: "user",
-          content: `This is the contents of a letter to a Doctors surgery {"letterContents": "${incomingRequest.letterContents}"}. Please extract the following in this JSON template: {"Summary":"","Next Actions":[""],"Snomed Codes and Attributes":[{"Code":"","Code Description":"", "Attribute":""}]}`, // set the prompt to the user's input
+          content: `This is the contents of a letter to a Doctors surgery {"letterContents": "${incomingRequest.letterContents}"}. Please extract the following in this JSON template: {"Summary":"","Next Actions":[""],"Key Diagnosis":"","Any New Medication":"", "Ugrency":"Urgent or Non-Urgent","Snomed Codes and Attributes":[{"Code":"","Code Description":"", "Attribute":""}]}`, // set the prompt to the user's input
         },
       ],
     });

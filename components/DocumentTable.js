@@ -1,6 +1,5 @@
 "use client";
 
-import { DocumentList } from "@/context/documentList";
 import { useDocumentListContext } from "@/context/documentList";
 import { useEffect } from "react";
 import Link from "next/link";
@@ -17,8 +16,18 @@ const DocumentTable = () => {
       const { data, error } = await supabase.from("documents").select("*");
 
       console.log({ data, error });
+      console.log(data.length, "data");
+      console.log(docList.length, "doclist");
 
-      setDocList(data);
+      if (data.length === docList.length) {
+        // do nothing
+      } else {
+        setDocList(data);
+      }
+      // add a check to see if this is different to the current state
+      // if it is different, update the state
+      // if it isn't then do nothing
+
       return { data, error };
     };
     getDocumentData();

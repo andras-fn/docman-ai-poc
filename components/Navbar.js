@@ -1,5 +1,5 @@
 import AuthButton from "@/components/AuthButton";
-import UploadModalWrapper from "@/components/UploadModalWrapper";
+import UploadModal from "@/components/UploadModal";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
@@ -14,22 +14,70 @@ const Navbar = async () => {
   } = await supabase.auth.getUser();
 
   return (
-    <nav className="p-2 w-full flex justify-between items-center">
+    <nav className="p-2 w-full flex justify-between items-center bg-[#242424] text-white">
       <div className="flex items-center gap-x-2">
         <Link href={`/`}>
           <div className="flex items-center gap-x-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              height="24"
-              viewBox="0 -960 960 960"
-              width="24"
+              xmlnsXlink="http://www.w3.org/1999/xlink"
+              viewBox="0 0 7.805 7.805"
+              width="60"
+              height="60"
             >
-              <path d="M680-320q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-440q0-17-11.5-28.5T680-480q-17 0-28.5 11.5T640-440q0 17 11.5 28.5T680-400ZM440-40v-116q0-21 10-39.5t28-29.5q32-19 67.5-31.5T618-275l62 75 62-75q37 6 72 18.5t67 31.5q18 11 28.5 29.5T920-156v116H440Zm79-80h123l-54-66q-18 5-35 13t-34 17v36Zm199 0h122v-36q-16-10-33-17.5T772-186l-54 66Zm-76 0Zm76 0Zm-518 0q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v200q-16-20-35-38t-45-24v-138H200v560h166q-3 11-4.5 22t-1.5 22v36H200Zm80-480h280q26-20 57-30t63-10v-40H280v80Zm0 160h200q0-21 4.5-41t12.5-39H280v80Zm0 160h138q11-9 23.5-16t25.5-13v-51H280v80Zm-80 80v-560 137-17 440Zm480-240Z" />
+              <defs>
+                <linearGradient
+                  id="b"
+                  x1="16.238"
+                  x2="16.238"
+                  y1="6.416"
+                  y2="31.996"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop offset="0" stopColor="#FFD600"></stop>
+                  <stop offset="1" stopColor="#E74E0F"></stop>
+                </linearGradient>
+                <clipPath id="c">
+                  <use width="100%" height="100%" xlinkHref="#a"></use>
+                </clipPath>
+                <linearGradient
+                  id="d"
+                  x1="16.34"
+                  x2="16.34"
+                  y1="6.362"
+                  y2="32.042"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop offset="0" stopColor="#FFD600"></stop>
+                  <stop offset="1" stopColor="#E74E0F"></stop>
+                </linearGradient>
+                <path
+                  id="a"
+                  d="M16.2 20l7 12H31L16.2 6.4 1.5 32h7.8l6.9-12"
+                ></path>
+                <path id="e" d="M1.5 6.4h29.8v25.7H1.5z"></path>
+              </defs>
+              <g transform="translate(-.397 -1.38) scale(.26458)">
+                <use
+                  width="100%"
+                  height="100%"
+                  fill="url(#b)"
+                  xlinkHref="#a"
+                ></use>
+                <g className="st3" clipPath="url(#c)">
+                  <use
+                    width="100%"
+                    height="100%"
+                    fill="url(#d)"
+                    xlinkHref="#e"
+                  ></use>
+                </g>
+              </g>
             </svg>
-            <div className="font-semibold">Docman AI</div>
+            <div className="text-[#81888c]">Docman AI</div>
           </div>
         </Link>
-        {user ? <UploadModalWrapper /> : <></>}
+        {user ? <UploadModal /> : <></>}
       </div>
       <AuthButton />
     </nav>

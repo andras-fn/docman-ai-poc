@@ -1,15 +1,12 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState, useRef, useContext } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { Fragment, useState, useRef } from "react";
 import { createWorker } from "tesseract.js";
 
 import { useDocumentListContext } from "@/context/documentList";
 
 const UploadModal = () => {
-  const supabase = createClient();
-
   let aRef = useRef(null);
   const [file, setFile] = useState();
   const [filename, setFilename] = useState();
@@ -46,20 +43,17 @@ const UploadModal = () => {
     try {
       // call the ocr function and get the result
       // create ocr worker
+      if (!file) {
+        throw new Error("File is missing");
+      }
+
+      // ocr file
       const worker = await createWorker("eng");
-      if (!file) return;
       const ret = await worker.recognize(file);
-      console.log(ret.data.text);
       await worker.terminate();
+      console.log(ret);
       const ocrResult = ret.data.text;
       console.log(ocrResult);
-
-      // upload file via api
-      const formdata = new FormData();
-      formdata.append("file", file);
-      formdata.append("filename", filename);
-
-      console.log(formdata);
 
       const requestOptions = {
         method: "POST",
@@ -103,7 +97,7 @@ const UploadModal = () => {
   return (
     <>
       <button
-        className="flex items-center gap-x-1 p-2 text-sm text-black hover:text-white hover:bg-slate-500 bg-slate-200 rounded ml-2"
+        className="flex flex-col items-center gap-x-1 p-2 text-sm text-white  hover:bg-neutral-700 bg-[#242424] rounded ml-2"
         type="button"
         onClick={openModal}
       >
