@@ -46,9 +46,11 @@ export async function POST(request) {
 
     const apiKey = process.env["AZURE_OPENAI_API_KEY"];
     if (!apiKey) {
-      throw new Error(
-        "The AZURE_OPENAI_API_KEY environment variable is missing or empty."
-      );
+      return NextResponse.json({
+        success: false,
+        error:
+          "The AZURE_OPENAI_API_KEY environment variable is missing or empty.",
+      });
     }
 
     // Azure OpenAI requires a custom baseURL, api-version query param, and api-key header.
@@ -95,12 +97,22 @@ export async function POST(request) {
 
       const saveExtractedDataResult = await saveExtractedData();
 
+      if (saveExtractedDataResult.error) {
+        return NextResponse.json({
+          success: false,
+          error: saveExtractedDataResult.error,
+        });
+      }
+
       return NextResponse.json({
         success: true,
         id: saveExtractedDataResult.data.id,
       });
     } else {
-      throw new Error("Unable to detect response from AOAI service");
+      return NextResponse.json({
+        success: false,
+        error: "Unable to detect response from AOAI service",
+      });
     }
   } catch (error) {
     return NextResponse.json({ success: false, error });

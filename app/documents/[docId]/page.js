@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import Image from "next/image";
-import exampleDoc from "./example-document.png";
+import exampleDoc from "../../../public/example-document.png";
 
 const page = async ({ params: { docId } }) => {
   const cookieStore = cookies();
@@ -42,35 +42,45 @@ const page = async ({ params: { docId } }) => {
         </div>
 
         {/* right hand side */}
-        <div className="w-1/3 flex flex-col items-center h-full overflow-y-scroll divide-y divide-gray-200">
-          <div className="w-full p-3">
-            <h2 className="text-2xl pb-3 flex">Summary</h2>
-            <p>{data && data.doc_data.Summary}</p>
+        <div className="w-1/3 flex flex-col items-center h-full ">
+          <div className="w-full flex flex-col items-center p-3 border-b border-slate-500">
+            <h2 className="text-2xl ">AI Suggestions</h2>
           </div>
-          <div className="w-full p-3">
-            <h2 className="text-2xl pb-3 flex">Urgency</h2>
-            <p>{data && data.doc_data.Urgency}</p>
-          </div>
-          <div className="w-full p-3">
-            <h2 className="text-2xl pb-3 flex">Key Diagnosis</h2>
-            <p>{data && data.doc_data["Key Diagnosis"]}</p>
-          </div>
-          <div className="w-full p-3">
-            <h2 className="text-2xl pb-3 flex">New Medication</h2>
-            <p>
-              {data && data.doc_data["Any New Medication"].length > 0
-                ? data.doc_data["Any New Medication"]
-                : "None"}
-            </p>
-          </div>
+          <div className="w-full flex flex-col items-center h-full overflow-y-scroll divide-y divide-gray-200">
+            <div className="w-full p-3">
+              <h2 className="text-2xl pb-3 flex">Summary</h2>
+              <p>{data && data.doc_data.Summary}</p>
+            </div>
+            <div className="w-full p-3">
+              <h2 className="text-2xl pb-3 flex">Urgency</h2>
+              <p>{data && data.doc_data.Urgency}</p>
+            </div>
+            <div className="w-full p-3">
+              <h2 className="text-2xl pb-3 flex">Key Diagnosis</h2>
+              <p>
+                {" "}
+                {data && data.doc_data["Key Diagnosis"].length > 0
+                  ? data.doc_data["Key Diagnosis"]
+                  : "None"}
+              </p>
+            </div>
+            <div className="w-full p-3">
+              <h2 className="text-2xl pb-3 flex">New Medication</h2>
+              <p>
+                {data && data.doc_data["Any New Medication"].length > 0
+                  ? data.doc_data["Any New Medication"]
+                  : "None"}
+              </p>
+            </div>
 
-          <div className="w-full p-3">
-            <h2 className="text-2xl pb-3">Next Actions</h2>
-            <ul className="w-full list-disc list-inside">
-              {data.doc_data["Next Actions"].map((action, i) => (
-                <li key={i}>{action}</li>
-              ))}
-            </ul>
+            <div className="w-full p-3">
+              <h2 className="text-2xl pb-3">Next Actions</h2>
+              <ul className="w-full list-disc list-inside">
+                {data.doc_data["Next Actions"].map((action, i) => (
+                  <li key={i}>{action}</li>
+                ))}
+              </ul>
+            </div>
           </div>
           {/* <div className="w-full p-3">
             <h2 className="text-2xl pb-3">Snomed Codes</h2>

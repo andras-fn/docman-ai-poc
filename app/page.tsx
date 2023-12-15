@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
-import DocumentTableWrapper from "@/components/DocumentTableWrapper"
+import DocumentTable from "@/components/DocumentTable"
 
 export default async function Index() {
   const cookieStore = cookies()
@@ -14,7 +14,7 @@ export default async function Index() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      {!user ? <div>Please sign in</div>: <DocumentTableWrapper/>}
+      {!user ? <div>Please sign in</div>: <DocumentTable/>}
     </div>
   )
 }

@@ -13,15 +13,12 @@ const DocumentTable = () => {
 
   useEffect(() => {
     const getDocumentData = async () => {
-      const { data, error } = await supabase.from("documents").select("*");
+      const { data, error } = await supabase
+        .from("documents")
+        .select("id, doc_name")
+        .order("id", { ascending: false });
 
-      console.log({ data, error });
-      console.log(data.length, "data");
-      console.log(docList.length, "doclist");
-
-      if (data.length === docList.length) {
-        // do nothing
-      } else {
+      if (data.length !== docList.length) {
         setDocList(data);
       }
       // add a check to see if this is different to the current state

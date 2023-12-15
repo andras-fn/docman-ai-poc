@@ -26,16 +26,16 @@ const UploadModal = () => {
   // handle file select
   const handleFileSelected = (e) => {
     e.preventDefault();
-    console.log(e.target.files[0]);
+    //console.log(e.target.files[0]);
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
   };
 
   // handle upload
   const handleUpload = async (e) => {
-    console.log(e);
+    //console.log(e);
     e.preventDefault();
-    console.log("file upload button has been clicked");
+    //console.log("file upload button has been clicked");
     setUploading(true);
 
     const timeNow = new Date();
@@ -51,9 +51,9 @@ const UploadModal = () => {
       const worker = await createWorker("eng");
       const ret = await worker.recognize(file);
       await worker.terminate();
-      console.log(ret);
+      //console.log(ret);
       const ocrResult = ret.data.text;
-      console.log(ocrResult);
+      //console.log(ocrResult);
 
       const requestOptions = {
         method: "POST",
@@ -68,27 +68,32 @@ const UploadModal = () => {
       const uploadReq = await fetch(`/api/upload`, requestOptions);
       const uploadRes = await uploadReq.json();
 
+      if (uploadRes.success === false) {
+        //console.log(uploadRes);
+        throw new Error("API Request unsuccessful");
+      }
+
       setDocList([
-        ...docList,
         {
           id: uploadRes.id,
           doc_name: filename,
         },
+        ...docList,
       ]);
 
       // reset the file upload
-      console.log("resetting file state");
+      //console.log("resetting file state");
       aRef = null;
 
       // show an alert
-      console.log("show success alert");
+      //console.log("show success alert");
 
       alert("File successfully uploaded");
       closeModal();
       setFile(null);
       setUploading(false);
     } catch (e) {
-      console.log(e);
+      //console.log(e);
       setUploading(false);
       alert("Something went wrong uploading the file");
     }
